@@ -18,3 +18,9 @@
   justify-content: space-around;
   justify-items: center;
 }
+.main__body {
+  margin: 2rem;
+  text-decoration: underline;
+  font-size: 1.2rem;
+  font-weight: 500;
+}

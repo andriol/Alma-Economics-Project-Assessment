@@ -6,6 +6,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 const App = () => {
   const [time, setTime] = useState('');
   const [area, setArea] = useState('');
+  const [region, setRegion] = useState('');
   const [result, setResult] = useState('');
   const url = `https://api.beta.ons.gov.uk/v1/datasets/wellbeing-local-authority/editions/time-series/versions/2/observations?time=${time}&geography=${area}&estimate=average-mean&measureofwellbeing=happiness`;
   const handleSelect = (e) => {
@@ -14,12 +15,15 @@ const App = () => {
   const regionSelect = (e) => {
     setArea(e);
   };
+  const setRegionVar = (e) => {
+    setRegion(e.target.innerHTML);
+  };
 
   const getData = async () => {
     const response = await fetch(url);
     const data = await response.json();
     const res = data.observations[0].observation;
-    console.log(res);
+
     setResult(res);
   };
   return (
@@ -55,26 +59,45 @@ const App = () => {
           </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item eventKey={'E12000001'}>North East</Dropdown.Item>
-            <Dropdown.Item eventKey={'E12000002'}>North West</Dropdown.Item>
-            <Dropdown.Item eventKey={'E12000003'}>
+            <Dropdown.Item eventKey={'E12000001'} onClick={setRegionVar}>
+              North East
+            </Dropdown.Item>
+            <Dropdown.Item eventKey={'E12000002'} onClick={setRegionVar}>
+              North West
+            </Dropdown.Item>
+            <Dropdown.Item eventKey={'E12000003'} onClick={setRegionVar}>
               Yorkshire and The Humber
             </Dropdown.Item>
-            <Dropdown.Item eventKey={'E12000004'}>East Midlands</Dropdown.Item>
-            <Dropdown.Item eventKey={'E12000005'}>West Mitlands</Dropdown.Item>
-            <Dropdown.Item eventKey={'E12000006'}>
+            <Dropdown.Item eventKey={'E12000004'} onClick={setRegionVar}>
+              East Midlands
+            </Dropdown.Item>
+            <Dropdown.Item eventKey={'E12000005'} onClick={setRegionVar}>
+              West Mitlands
+            </Dropdown.Item>
+            <Dropdown.Item eventKey={'E12000006'} onClick={setRegionVar}>
               East of England
             </Dropdown.Item>
-            <Dropdown.Item eventKey={'E12000007'}>London</Dropdown.Item>
-            <Dropdown.Item eventKey={'E12000008'}>South East</Dropdown.Item>
-            <Dropdown.Item eventKey={'E12000009'}>South West</Dropdown.Item>
+            <Dropdown.Item eventKey={'E12000007'} onClick={setRegionVar}>
+              London
+            </Dropdown.Item>
+            <Dropdown.Item eventKey={'E12000008'} onClick={setRegionVar}>
+              South East
+            </Dropdown.Item>
+            <Dropdown.Item eventKey={'E12000009'} onClick={setRegionVar}>
+              South West
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </div>
       <button type='button' className='btn btn-primary' onClick={getData}>
         Get Results
       </button>
-      <div> The result is {result}</div>
+
+      <div className='main__body'>
+        {result !== ''
+          ? `The result for ${time} in ${region} is ${result}`
+          : ''}
+      </div>
     </div>
   );
 };
